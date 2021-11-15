@@ -13,7 +13,7 @@ const app = express();
 app.use(express.urlencoded({extended: false}));
 
 
-var proxyServer = 'https://coronacoc-proxy.vercel.app/';
+var proxyServer = 'https://cors-coronacoc-v2.herokuapp.com/';
 
 app.get("/", (req, res) => {
   $.ajax({
