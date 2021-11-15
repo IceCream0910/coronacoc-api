@@ -15,10 +15,7 @@ app.use(express.urlencoded({extended: false}));
 
 var proxyServer = 'https://coronacoc-proxy.vercel.app/';
 
-app.get("/", (req, res) => res.send('hello world'));
-
-app.get("/api", (req, res) => {
-  //
+app.get("/", (req, res) => {
   $.ajax({
     type: "GET",
     url: proxyServer+"https://apiv2.corona-live.com/domestic-init.json", // Using myjson.com to store the JSON
@@ -38,6 +35,11 @@ app.get("/api", (req, res) => {
     }
   });
 
+});
+
+app.get("/api", (req, res) => {
+  //
+  
   
 });
 
