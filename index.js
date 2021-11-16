@@ -69,9 +69,12 @@ app.get("/", (req, res) => {
             var result5 = JSON.parse(body.toString());
             data.first_vaccinePercent = result5.stats.partiallyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
              data.first_vaccineDelta = result5.stats.partiallyVaccinated.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+             data.first_vaccineTotal = result5.stats.partiallyVaccinated.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            
              data.second_vaccinePercent = result5.stats.fullyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
              data.second_vaccineDelta =  result5.stats.fullyVaccinated.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-              
+             data.second_vaccineTotal = result5.stats.fullyVaccinated.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
              request({
               uri: "http://ncov.mohw.go.kr/"
             }, function(error, response, body) {
@@ -81,12 +84,13 @@ app.get("/", (req, res) => {
              var dataIndexEnd_s = result6.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>');
              var resPart_s = result6.toString().substring(dataIndex_s, dataIndexEnd_s).replace('<th scope="row"><span>중환자 병상 <br>(중증환자전담 치료병상)</span></th>','').replace('<td><span>', '').replace('</span></td>', '/').replace('<tr>', '').replace('</li>', '').replace('</tr>', '').replace(/\s/g,'').split('/');
              data.severeBeds = resPart_s[0].replace(regex3, "").replace(regex2, "").replace(regex, "").replace(regex4, "").replace(regex5, "");
+
              //일반 병상
              var dataIndex_n = result6.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>');
              var dataIndexEnd_n = result6.toString().indexOf('<p class="info_notice">거점전담병원 포함</p>');
              var resPart_n = result6.toString().substring(dataIndex_n, dataIndexEnd_n).replace('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>','').replace('<td><span>', '').replace('</span></td>', '/').replace('<tr>', '').replace('</li>', '').replace('</tr>', '').replace('</tbody>').replace('</table>', '').replace(/\s/g,'').split('/');
              data.normalBeds = resPart_n[0].replace(regex3, "").replace(regex2, "").replace(regex, "").replace(regex4, "").replace(regex5, "");
-          
+
              var jsonString = JSON.stringify(data);
              res.send(jsonString);
           
