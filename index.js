@@ -9,7 +9,6 @@ global.document = document;
 var $ = jQuery = require('jquery')(window);
 
 const app = express();
-app.engine('html', require('ejs').renderFile);
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
 
