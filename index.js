@@ -108,6 +108,7 @@ app.get("/", (req, res) => {
               data.chungbuk = result13.chungbuk;
               data.chungnam = result13.chungnam;
               data.jeonbuk = result13.jeonbuk;
+              data.jeonbuk = result13.jeonnam;
               data.gyeongbuk = result13.gyeongbuk;
               data.gyeongnam = result13.gyeongnam;
               data.jeju = result13.jeju;
