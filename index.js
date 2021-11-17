@@ -92,75 +92,32 @@ app.get("/", (req, res) => {
              data.normalBeds = resPart_n[0].replace(regex3, "").replace(regex2, "").replace(regex, "").replace(regex4, "").replace(regex5, "");
 
              request({
-              uri: "https://apiv2.corona-live.com/tests/all.json"
+              uri: "https://api.corona-19.kr/korea/country/new/?serviceKey=5d4143bd958c16e18abe1acef5386c12d"
             }, function(error, response, body) {
-              var result7 = JSON.parse(body.toString());
+              var result13= JSON.parse(body.toString());
+              data.seoul = result13.seoul;
+              data.busan = result13.busan;
+              data.daegu = result13.daegu;
+              data.incheon = result13.incheon;
+              data.gwangju = result13.gwangju;
+              data.daejeon = result13.daejeon;
+              data.ulsan = result13.ulsan;
+              data.sejong = result13.sejong;
+              data.gyeonggi = result13.gyeonggi;
+              data.gangwon = result13.gangwon;
+              data.chungbuk = result13.chungbuk;
+              data.chungnam = result13.chungnam;
+              data.jeonbuk = result13.jeonbuk;
+              data.gyeongbuk = result13.gyeongbuk;
+              data.gyeongnam = result13.gyeongnam;
+              data.jeju = result13.jeju;
+              data.quarantine = result13.quarantine;
 
-              data.testsDataset = result7;
-              request({
-                uri: "https://news.daum.net/covid19"
-              }, function(error, response, body) {
-                var result8 = body;
-                var dataIndex = result8.toString().indexOf('window.summaryList');
-                var dataIndexEnd = result8.toString().indexOf('window.vaccinationList');
-                var data_res = JSON.parse(result8.toString().substring(dataIndex, dataIndexEnd).replace("window.summaryList = ", "").replace(";", ""));
-                data.casesDatasets = data_res;
-                request({
-                  uri: "https://apiv2.corona-live.com/deaths/all.json"
-                }, function(error, response, body) {
-                  var result9 = JSON.parse(body.toString());
-                  data.deathsDatasets_all = result9;
-                  request({
-                    uri: "https://apiv2.corona-live.com/deaths/week.json"
-                  }, function(error, response, body) {
-                    var result10 = JSON.parse(body.toString());
-                    data.deathsDatasets_week = result10;
-                    request({
-                      uri: "https://apiv2.corona-live.com/tests/all.json"
-                    }, function(error, response, body) {
-                      var result11 = JSON.parse(body.toString());
-                      data.testsDatasets_all = result11;
-                      request({
-                        uri: "https://apiv2.corona-live.com/tests/week.json"
-                      }, function(error, response, body) {
-                        var result12= JSON.parse(body.toString());
-                        data.testsDatasets_week = result12;
-                        request({
-                          uri: "https://api.corona-19.kr/korea/country/new/?serviceKey=5d4143bd958c16e18abe1acef5386c12d"
-                        }, function(error, response, body) {
-                          var result13= JSON.parse(body.toString());
-                          data.seoul = result13.seoul;
-                          data.busan = result13.busan;
-                          data.daegu = result13.daegu;
-                          data.incheon = result13.incheon;
-                          data.gwangju = result13.gwangju;
-                          data.daejeon = result13.daejeon;
-                          data.ulsan = result13.ulsan;
-                          data.sejong = result13.sejong;
-                          data.gyeonggi = result13.gyeonggi;
-                          data.gangwon = result13.gangwon;
-                          data.chungbuk = result13.chungbuk;
-                          data.chungnam = result13.chungnam;
-                          data.jeonbuk = result13.jeonbuk;
-                          data.gyeongbuk = result13.gyeongbuk;
-                          data.gyeongnam = result13.gyeongnam;
-                          data.jeju = result13.jeju;
-                          data.quarantine = result13.quarantine;
-        
-                         var jsonString = JSON.stringify(data);
-                         res.send(jsonString);
-                      
-                        });
-                      });
-                  
-                    });
-                  });
-              
-                });
-            
-              });
+             var jsonString = JSON.stringify(data);
+             res.send(jsonString);
           
             });
+             
           
             });
         

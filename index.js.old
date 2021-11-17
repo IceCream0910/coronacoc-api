@@ -1,0 +1,45 @@
+request({
+              uri: "https://apiv2.corona-live.com/tests/all.json"
+            }, function(error, response, body) {
+              var result7 = JSON.parse(body.toString());
+
+              data.testsDataset = result7;
+              request({
+                uri: "https://news.daum.net/covid19"
+              }, function(error, response, body) {
+                var result8 = body;
+                var dataIndex = result8.toString().indexOf('window.summaryList');
+                var dataIndexEnd = result8.toString().indexOf('window.vaccinationList');
+                var data_res = JSON.parse(result8.toString().substring(dataIndex, dataIndexEnd).replace("window.summaryList = ", "").replace(";", ""));
+                data.casesDatasets = data_res;
+                request({
+                  uri: "https://apiv2.corona-live.com/deaths/all.json"
+                }, function(error, response, body) {
+                  var result9 = JSON.parse(body.toString());
+                  data.deathsDatasets_all = result9;
+                  request({
+                    uri: "https://apiv2.corona-live.com/deaths/week.json"
+                  }, function(error, response, body) {
+                    var result10 = JSON.parse(body.toString());
+                    data.deathsDatasets_week = result10;
+                    request({
+                      uri: "https://apiv2.corona-live.com/tests/all.json"
+                    }, function(error, response, body) {
+                      var result11 = JSON.parse(body.toString());
+                      data.testsDatasets_all = result11;
+                      request({
+                        uri: "https://apiv2.corona-live.com/tests/week.json"
+                      }, function(error, response, body) {
+                        var result12= JSON.parse(body.toString());
+                        data.testsDatasets_week = result12;
+                        
+                      });
+                  
+                    });
+                  });
+              
+                });
+            
+              });
+          
+            });
