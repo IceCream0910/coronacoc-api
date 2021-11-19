@@ -63,22 +63,21 @@ app.get("/", (req, res) => {
            var hospitalized = resPart_h.substring(dataIndex_h_, dataIndexEnd_h_).replace('<dd class="ca_value">', '').replace('</dd>', '').replace(")", "");
            data.newHospitalization = hospitalized.replace(regex3, "").replace(regex2, "").replace(regex, "").replace(regex4, "").replace(regex5, "").replace(regex4, "").replace(regex5, "");
            
-           request({
-            uri: "https://apiv2.corona-live.com/vaccine.json"
-          }, function(error, response, body) {
-            var result5 = JSON.parse(body.toString());
-            data.first_vaccinePercent = result5.stats.partiallyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-             data.first_vaccineDelta = result5.stats.partiallyVaccinated.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-             data.first_vaccineTotal = result5.stats.partiallyVaccinated.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            
-             data.second_vaccinePercent = result5.stats.fullyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-             data.second_vaccineDelta =  result5.stats.fullyVaccinated.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-             data.second_vaccineTotal = result5.stats.fullyVaccinated.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
              request({
               uri: "http://ncov.mohw.go.kr/"
             }, function(error, response, body) {
               var result6 = body;
+              //백신
+              var dataIndex_v = result6.toString().indexOf('<li class="item">1차접종</li>');
+           var dataIndexEnd_v = result6.toString().indexOf('</div><!-- vaccineNum -->');
+           var resPart_v = result6.toString().substring(dataIndex_v, dataIndexEnd_v).replace('<li class="item">1차접종</li>','').replace('<ul class="ca_body">', '').replace('<li>', '').replace('<dl>', '').replace('</li>', '').replace('</ul>', '').replace('</dl>', '').replace('</div>', '').replace('<div>', '').replace('<dt class="ca_subtit">일일</dt>', '');
+           var dataIndex_v1_ = resPart_v.toString().indexOf('<li class="percent">');
+           var dataIndexEnd_v1_ = resPart_v.toString().indexOf('<li class="item">접종완료</li>');
+            data.first_vaccine = resPart_v.substring(dataIndex_v1_, dataIndexEnd_v1_).replace('<li class="percent">', '').replace('<span>%</span>', '/').replace(/<ul>/g, '').replace(/<li class="person"><span>/g, '').replace(/<span>/g, '').replace(/<div class="box">/g, '').replace(/<ul>/, '').replace('누적</span>', '').replace('신규</span>', '').replace(' <img src="/static/image/main/vaccin_up_icon1.png" alt=""></li>', '').replace('</ul>', '').replace(/<li>/g, '/').replace(/(\s*)/g, "").replace('li>', '').replace('<', '').split('/');
+            var dataIndex_v2_ = resPart_v.toString().indexOf('<li class="item">접종완료</li>');
+            var dataIndexEnd_v2_ = resPart_v.toString().indexOf('<li class="item">추가접종</li>');
+            data.second_vaccine = resPart_v.substring(dataIndex_v2_, dataIndexEnd_v2_).replace('<li class="item">접종완료</li>', '').replace('<span>%</span>', '/').replace(/<ul>/g, '').replace(/<li class="person"><span>/g, '').replace(/<span>/g, '').replace(/<div class="box">/g, '').replace(/<ul>/, '').replace('누적</span>', '').replace('신규</span>', '').replace(' <img src="/static/image/main/vaccin_up_icon1.png" alt=""></li>', '').replace('</ul>', '').replace(/<li>/g, '/').replace(/(\s*)/g, "").replace('li>', '').replace('<liclass="percent">', '').replace(/</g, '').replace(/>/g, '').replace('li', '').replace('ul', '').replace('div!--', '').replace('//', '/').split('/').splice(0, 3)
+         
              //중환자 병상
              var dataIndex_s = result6.toString().indexOf('<th scope="row"><span>중환자 병상 <br>(중증환자전담 치료병상)</span></th>');
              var dataIndexEnd_s = result6.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>');
@@ -116,10 +115,6 @@ app.get("/", (req, res) => {
 
              var jsonString = JSON.stringify(data);
              res.send(jsonString);
-          
-            });
-             
-          
             });
         
           });
