@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 			data.updateTime = result2.API.updateTime.replace('코로나바이러스감염증-19 국내 발생현황 (', '').replace(')', '');
 			data.cure = result2.korea.recCnt;
       data.newCases = result2.korea.incDec;
-			data.localConfirmed = result2.korea.inDecK;
+			data.localConfirmed = result2.korea.incDecK;
 			data.abroadConfirmed = result2.korea.incDecF;
 
         request({
