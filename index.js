@@ -39,7 +39,9 @@ app.get("/", (req, res) => {
 			uri: "https://apiv3.corona-live.com/vaccine.json"
 		}, function(error, response, body) {
 			var result3 = JSON.parse(body.toString());
-			data.vaccination = result3.overview;
+			data.first_vaccine = result3.overview.partiallyVaccinated;
+			data.second_vaccine = result3.overview.fullyVaccinated;
+      data.third_vaccine = result3.overview.booster;
 
       request({
         uri: "https://api.corona-19.kr/korea/beta/?serviceKey=5d4143bd958c16e18abe1acef5386c12d"
