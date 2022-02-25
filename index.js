@@ -28,8 +28,8 @@ app.get("/", (req, res) => {
     data.newCases = result.overview.confirmed[1];
 		data.deaths = result.overview.deceased[0];
     data.newDeaths =  result.overview.deceased[1];
-		data.severe = result.overview.confirmedSevereSymptoms[0];
-		data.newSevere = result.overview.confirmedSevereSymptoms[1];
+		data.severe = result.overview.confirmedCritical[0];
+		data.newSevere = result.overview.confirmedCritical[1];
     data.cure = result.overview.recovered[0];
     data.newCure = result.overview.recovered[1];
     
