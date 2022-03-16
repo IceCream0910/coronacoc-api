@@ -30,10 +30,8 @@ app.get("/", (req, res) => {
     data.newDeaths =  result.overview.deceased[1];
 		data.severe = result.overview.confirmedCritical[0];
 		data.newSevere = result.overview.confirmedCritical[1];
-    //data.cure = result.overview.recovered[0];
-    //data.newCure = result.overview.recovered[1];
-    data.cure = 0;
-    data.newCure = 0;
+    data.hospitalised = result.overview.hospitalised[0];
+    data.newHospitalised = result.overview.hospitalised[1];
     
 		request({
 			uri: "https://apiv3.corona-live.com/vaccine.json"
